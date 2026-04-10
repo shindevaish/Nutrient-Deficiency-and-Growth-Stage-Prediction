@@ -260,4 +260,41 @@ def main():
                     <div class="metric-value">{gro_res}</div>
                     <div class="metric-sub">Confidence: {gro_conf:.2f}%</div>
                 </div>
-                """, unsafe_allow_html=T
+                """, unsafe_allow_html=True)
+
+            with r2:
+                if def_res == "Healthy":
+                    st.markdown(f"""
+                    <div class="result-green">
+                        <div class="metric-label">Health Status</div>
+                        <div class="metric-value">{def_res}</div>
+                        <div class="metric-sub">Confidence: {def_conf:.2f}%</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.markdown(f"""
+                    <div class="result-red">
+                        <div class="metric-label">Health Status</div>
+                        <div class="metric-value">{def_res} Deficiency</div>
+                        <div class="metric-sub">Confidence: {def_conf:.2f}%</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            st.markdown("### Analysis Summary")
+            st.success(f"Crop Type: {selected_crop}")
+            st.info(f"Predicted Growth Stage: {gro_res}")
+            if def_res == "Healthy":
+                st.success(f"Predicted Health Status: {def_res}")
+            else:
+                st.error(f"Predicted Health Status: {def_res} Deficiency")
+
+        except Exception as e:
+            st.error("An error occurred during prediction.")
+            st.code(str(e))
+
+    st.markdown("---")
+    st.caption("Developed for Agri-Tech crop diagnosis")
+
+
+if __name__ == "__main__":
+    main()
